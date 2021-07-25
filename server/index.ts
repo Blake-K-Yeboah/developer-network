@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false}));
 app.use(express.json());
 
 // Import Database Config
-// ---
+import './config/database';
 
 // Routes
 app.get("/", (req, res) => {
