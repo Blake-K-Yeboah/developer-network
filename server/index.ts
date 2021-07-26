@@ -48,4 +48,4 @@ if (process.env.NODE_ENV !== "testing") {
 }
 
 // For Testing
-module.exports = app;
+export default app;
