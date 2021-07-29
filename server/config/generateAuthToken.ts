@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 // Interfaces
 import { IUser } from "../config/interface";
 
-export default (user: IUser) => {
+export default (user: IUser): string => {
     const secret = process.env.JWT_SECRET;
 
     return jwt.sign(
