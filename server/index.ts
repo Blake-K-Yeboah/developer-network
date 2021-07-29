@@ -25,10 +25,11 @@ app.use(express.json());
 // Import Database Config
 import './config/database';
 
-// Routes
-app.get("/", (req, res) => {
-    res.send("Hello There!");
-});
+// Import Routes
+import AuthRouter from "./routes/auth";
+
+// Use Routes
+app.use("/api/auth", AuthRouter);
 
 // Serve React App If In Production
 if (process.env.NODE_ENV === "production") {
