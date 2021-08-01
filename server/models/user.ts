@@ -33,7 +33,7 @@ const userSchema = new Schema({
         required: true,
         trim: true
     },
-    friends: [{
+    followers: [{
         username: String,
         date: { type: Date, default: Date.now }
     }],
@@ -43,4 +43,4 @@ const userSchema = new Schema({
     },
 });
 
-export const user = model("users", userSchema);
+export const User = model("users", userSchema);
