@@ -1,5 +1,6 @@
 // Types
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response, NextFunction } from 'express';
+import { LoginRequest } from '../config/interface';
 
 const validateEmail = (email: string) => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -33,6 +34,17 @@ export const validateRegisterInput = async (req: Request, res: Response, next: N
 
     if (!bio) {
         return res.status(400).json({ msg: "Please enter a bio."});
+    }
+
+    next();
+}
+
+export const validateLoginInput = async (req: LoginRequest, res: Response, next: NextFunction) => {
+
+    const { account, password } = req.body;
+
+    if (account.startsWith("@")) {
+        req.accountType = "username";
     }
 
     next();
