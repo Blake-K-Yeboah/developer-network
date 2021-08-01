@@ -47,8 +47,6 @@ const registerUser = async (req: Request, res: Response): Promise<Response> => {
     return res.json({ token });
 }
 
-const AuthController = {
+export default {
     registerUser
-}
-
-export default AuthController;
+};
