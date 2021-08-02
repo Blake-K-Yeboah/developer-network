@@ -1,6 +1,5 @@
 // Types
 import { Request, Response, NextFunction } from 'express';
-import { LoginRequest } from '../config/interface';
 
 const validateEmail = (email: string) => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -39,12 +38,17 @@ export const validateRegisterInput = async (req: Request, res: Response, next: N
     next();
 }
 
-export const validateLoginInput = async (req: LoginRequest, res: Response, next: NextFunction) => {
+export const validateLoginInput = async (req: Request, res: Response, next: NextFunction) => {
+    const { email, password } = req.body;
 
-    const { account, password } = req.body;
+    if (!email) {
+        return res.status(400).json({ msg: "Please enter your email."});
+    } else if (!validateEmail(email)) {
+        return res.status(400).json({ msg: "Email is invalid"});
+    }
 
-    if (account.startsWith("@")) {
-        req.accountType = "username";
+    if (!password) {
+        return res.status(400).json({ msg: "Please enter your password."});
     }
 
     next();
