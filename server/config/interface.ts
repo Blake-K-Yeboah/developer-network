@@ -16,7 +16,3 @@ export interface IFriend {
     username: string,
     date: string
 }
-
-export interface LoginRequest extends Request {
-    accountType?: string
-}
