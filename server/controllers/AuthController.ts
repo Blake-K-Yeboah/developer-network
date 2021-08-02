@@ -9,19 +9,20 @@ import { User } from "../models/user";
 
 // Generate Token Function
 import generateAuthToken from "../config/generateAuthToken";
+import { IUser } from "../config/interface";
 
 // Register User
 const registerUser = async (req: Request, res: Response): Promise<Response> => {
     
     // Check if email already in use
-    const userByEmail = await User.findOne({ email: req.body.email });
+    const userByEmail: IUser | null = await User.findOne({ email: req.body.email });
 
     if (userByEmail) {
         return res.status(400).json({ msg: "Email already used." });
     }
 
     // Check if username already in use
-    const userByUsername = await User.findOne({ username: req.body.username });
+    const userByUsername: IUser | null = await User.findOne({ username: req.body.username });
 
     if (userByUsername) {
         return res.status(400).json({ msg: "Username already used." });
@@ -39,7 +40,7 @@ const registerUser = async (req: Request, res: Response): Promise<Response> => {
         bio: req.body.bio
     });
 
-    const savedUser = newUser.save();
+    const savedUser: IUser = newUser.save();
 
     // Generate and respond with JWT
     const token = generateAuthToken(savedUser);
@@ -49,7 +50,24 @@ const registerUser = async (req: Request, res: Response): Promise<Response> => {
 
 // Login
 const login = async (req: Request, res: Response): Promise<Response> => {
-    return res.json({});
+
+    // Check if email exists
+    const user: IUser | null = await User.findOne({ email: req.body.email });
+
+    if (!user) {
+        return res.status(400).json({ msg: "No user with that email." });
+    }
+
+    const match = await bcrypt.compare(req.body.password, user.password);
+
+    if (!match) {
+        return res.status(400).json({ msg: "Incorrect Password "});
+    }
+    
+    // Generate and respond with JWT
+    const token = generateAuthToken(user);
+
+    return res.json({ token });
 }
 
 export default {
