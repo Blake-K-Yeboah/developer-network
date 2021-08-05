@@ -1,7 +1,7 @@
 import express from "express";
 
 // Middleware
-import { validateRegisterInput, validateLoginInput } from "../middleware/validation";
+import { validateRegisterInput, validateLoginInput, validateResetPasswordFromCodeInput } from "../middleware/validation";
 
 // Auth Controller
 import AuthController from "../controllers/AuthController";
@@ -17,6 +17,9 @@ router.post("/login", validateLoginInput, AuthController.login);
 
 // Request Password Reset
 router.post("/request-password-reset", AuthController.requestPasswordReset);
+
+// Reset Password From Code
+router.put("/reset-password-from-code", validateResetPasswordFromCodeInput, AuthController.resetPasswordFromCode);
 
 // Export Router
 export default router;
