@@ -53,3 +53,25 @@ export const validateLoginInput = async (req: Request, res: Response, next: Next
 
     next();
 }
+
+export const validateResetPasswordFromCodeInput = async (req: Request, res: Response, next: NextFunction) => {
+    const { verifyCode, newPassword, confirmNewPassword } = req.body;
+
+    if (!verifyCode) {
+        return res.status(400).json({ msg: "Please enter a verification code."});
+    }
+
+    if (!newPassword) {
+        return res.status(400).json({ msg: "Please enter a new password."});
+    } else if (newPassword.length < 8) {
+        return res.status(400).json({ msg: "Password must be 8 characters or longer."});
+    }
+
+    if (!confirmNewPassword) {
+        return res.status(400).json({ msg: "Please re enter your password."});
+    } else if (confirmNewPassword !== newPassword) {
+        return res.status(400).json({ msg: "Passwords dont match."});
+    }
+
+    next();
+}
