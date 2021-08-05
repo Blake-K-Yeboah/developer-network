@@ -51,7 +51,7 @@ const registerUser = async (req: Request, res: Response): Promise<Response> => {
 // Login
 const login = async (req: Request, res: Response): Promise<Response> => {
 
-    // Check if email exists
+    // Check if account with email exists
     const user: IUser | null = await User.findOne({ email: req.body.email });
 
     if (!user) {
@@ -70,7 +70,22 @@ const login = async (req: Request, res: Response): Promise<Response> => {
     return res.json({ token });
 }
 
+// Request Password Reset
+const requestPasswordReset = async (req: Request, res: Response): Promise<Response> => {
+   
+    // Check if account with email exists
+    const user: IUser | null = await User.findOne({ email: req.body.email });
+
+    if (!user) {
+        return res.status(400).json({ msg: "No user with that email." });
+    }
+
+    
+    return res.json({ });
+}
+
 export default {
     registerUser,
-    login
+    login,
+    requestPasswordReset
 };
