@@ -3,12 +3,19 @@ import { Request, Response } from "express";
 
 // Modules
 import bcrypt from "bcryptjs";
+import { v4 as uuidv4 } from 'uuid';
+import nodemailer from "nodemailer";
 
 // User Model
 import { User } from "../models/user";
 
+// Reset Token Model
+import { ResetToken } from "../models/resetToken";
+
 // Generate Token Function
 import generateAuthToken from "../config/generateAuthToken";
+
+// USer Interface
 import { IUser } from "../config/interface";
 
 // Register User
@@ -80,8 +87,39 @@ const requestPasswordReset = async (req: Request, res: Response): Promise<Respon
         return res.status(400).json({ msg: "No user with that email." });
     }
 
+    // Generate and save token
+    const token = uuidv4();
+
+    const newToken = new ResetToken({
+        user: user._id,
+        token
+    });
+
+    const savedToken = await newToken.save();
     
-    return res.json({ });
+    // Send Email To User With Token
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+           user: process.env.EMAIL,
+           pass: process.env.PASSWORD,
+        },
+    });
+
+    const mailOptions = {
+        from: process.env.EMAIL,
+        to: user.email,
+        subject: `You've requested a password reset for Dev Network`,
+        html: `<h1>You've requested a password reset</h1><p>Please use the following verification code below to reset your password</p><code>${token}</code>`,
+    };
+  
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            return res.status(500).json({ msg: "An error occured on the server."})
+        }
+    });
+
+    return res.send("Success!");
 }
 
 export default {
