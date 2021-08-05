@@ -122,8 +122,14 @@ const requestPasswordReset = async (req: Request, res: Response): Promise<Respon
     return res.send("Success!");
 }
 
+// Reset Password From Code
+const resetPasswordFromCode = async (req: Request, res: Response): Promise<Response> => {
+    return res.json({ msg: "hi" });
+}
+
 export default {
     registerUser,
     login,
-    requestPasswordReset
+    requestPasswordReset,
+    resetPasswordFromCode
 };
