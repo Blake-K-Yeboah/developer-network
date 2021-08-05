@@ -10,10 +10,13 @@ import AuthController from "../controllers/AuthController";
 const router = express.Router();
 
 // Register Route
-router.post("/register", validateRegisterInput, AuthController.registerUser)
+router.post("/register", validateRegisterInput, AuthController.registerUser);
 
 // Login Route
 router.post("/login", validateLoginInput, AuthController.login);
+
+// Request Password Reset
+router.post("/request-password-reset", AuthController.requestPasswordReset);
 
 // Export Router
 export default router;
