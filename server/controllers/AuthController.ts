@@ -15,8 +15,8 @@ import { ResetToken } from "../models/resetToken";
 // Generate Token Function
 import generateAuthToken from "../config/generateAuthToken";
 
-// USer Interface
-import { IUser } from "../config/interface";
+// Interfaces
+import { IUser, IResetToken } from "../config/interface";
 
 // Register User
 const registerUser = async (req: Request, res: Response): Promise<Response> => {
@@ -110,7 +110,7 @@ const requestPasswordReset = async (req: Request, res: Response): Promise<Respon
         from: process.env.EMAIL,
         to: user.email,
         subject: `You've requested a password reset for Dev Network`,
-        html: `<h1>You've requested a password reset</h1><p>Please use the following verification code below to reset your password</p><code>${token}</code>`,
+        html: `<h1>You've requested a password reset</h1><p>Please use the following verification code below to reset your password (code only valid for 1 hour)</p><code>${token}</code>`,
     };
   
     transporter.sendMail(mailOptions, function (error, info) {
@@ -124,6 +124,28 @@ const requestPasswordReset = async (req: Request, res: Response): Promise<Respon
 
 // Reset Password From Code
 const resetPasswordFromCode = async (req: Request, res: Response): Promise<Response> => {
+
+    // Check Verification Code exists in database
+    const resetToken: IResetToken | null = ResetToken.findOne({ token: req.body.verifyCode });
+
+    if (!resetToken) {
+        return res.status(400).json({ msg: "Invalid verification code provided."});
+    }
+
+    // Check verification code matches user
+    const user = User.findOne({ email: req.body.email });
+
+    if (!user) {
+        return res.status(400).json({ msg: "No user with that email."});
+    }
+
+    if (resetToken.user !== user._id) {
+        return res.status(400).json({ msg: "Invalid verification code provided."});
+    }
+
+    // TODO: Check verification code hasnt expired
+    // TODO: Update password in database
+
     return res.json({ msg: "hi" });
 }
 
