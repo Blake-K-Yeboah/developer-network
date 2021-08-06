@@ -55,7 +55,7 @@ export const validateLoginInput = async (req: Request, res: Response, next: Next
 }
 
 export const validateResetPasswordFromCodeInput = async (req: Request, res: Response, next: NextFunction) => {
-    const { verifyCode, newPassword, confirmNewPassword } = req.body;
+    const { verifyCode, newPassword, confirmNewPassword, email } = req.body;
 
     if (!verifyCode) {
         return res.status(400).json({ msg: "Please enter a verification code."});
@@ -71,6 +71,10 @@ export const validateResetPasswordFromCodeInput = async (req: Request, res: Resp
         return res.status(400).json({ msg: "Please re enter your password."});
     } else if (confirmNewPassword !== newPassword) {
         return res.status(400).json({ msg: "Passwords dont match."});
+    }
+
+    if (!email) {
+        return res.status(400).json({ msg: "Please enter your email."});
     }
 
     next();
