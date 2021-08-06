@@ -1,5 +1,3 @@
-import {Request} from "express";
-
 export interface IUser {
     _id: string,
     name: string,
@@ -15,4 +13,11 @@ export interface IUser {
 export interface IFriend {
     username: string,
     date: string
+}
+
+export interface IResetToken {
+    _id: string,
+    user: string,
+    token: string,
+    createdAt: string
 }
