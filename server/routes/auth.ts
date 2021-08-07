@@ -10,19 +10,29 @@ import AuthController from "../controllers/AuthController";
 // Define Router
 const router = express.Router();
 
-// Register Route
+// @route POST api/auth/register
+// @desc Register a new user
+// @access Public
 router.post("/register", validateRegisterInput, AuthController.registerUser);
 
-// Login Route
+// @route POST api/auth/login
+// @desc Login user
+// @access Public
 router.post("/login", validateLoginInput, AuthController.login);
 
-// Request Password Reset
+// @route POST api/auth/request-password-reset
+// @desc Request a password reset
+// @access Public
 router.post("/request-password-reset", AuthController.requestPasswordReset);
 
-// Reset Password From Code
+// @route PUT api/auth/reset-password-from-code
+// @desc Reset password using verification code emailed
+// @access Public
 router.put("/reset-password-from-code", validateResetPasswordFromCodeInput, AuthController.resetPasswordFromCode);
 
-// Reset Password While Logged In
+// @route PUT api/auth/reset-password
+// @desc Reset password after being logged in
+// @access Public
 router.put("/reset-password", authenticate, validateResetPassword, AuthController.resetPassword)
 
 // Export Router
