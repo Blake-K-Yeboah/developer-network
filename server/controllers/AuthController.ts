@@ -167,7 +167,7 @@ const resetPasswordFromCode = async (req: Request, res: Response): Promise<Respo
         return res.status(400).json({ msg: "Verification code has expired."});
     }
 
-    // TODO: Update password in database
+    // Update password in database
     const hashedPassword = await bcrypt.hash(req.body.newPassword, 12);
 
     user.password = hashedPassword;
@@ -186,6 +186,33 @@ const resetPasswordFromCode = async (req: Request, res: Response): Promise<Respo
 
 // Reset Password While Logged In
 const resetPassword = async (req: AuthRequest, res: Response): Promise<Response> => {
+
+    // Get user from DB
+    const user = await User.findById(req.user!._id);
+
+    // Validate password
+    const match = await bcrypt.compare(req.body.oldPassword, user.password);
+
+    if (!match) {
+        return res.status(400).json({ msg: "Incorrect old password." });
+    }
+
+    // Update new password in DB
+    const hashedPassword = await bcrypt.hash(req.body.newPassword, 12);
+
+    user.password = hashedPassword;
+
+    try {
+
+        const updatedUser = await user.save();
+        return res.send("Success!");
+
+    } catch (err) {
+
+        return res.status(500).json({ msg: "An error occured on the server"});
+        
+    }
+
     return res.json({ msg: "Hi" });
 }
 
