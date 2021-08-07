@@ -1,4 +1,5 @@
 import { Document } from 'mongoose'
+import { Request } from 'express'
 
 export interface IUser extends Document {
     _id: string,
@@ -22,4 +23,8 @@ export interface IResetToken extends Document  {
     user: string,
     token: string,
     createdAt: string
+}
+
+export interface AuthRequest extends Request {
+    user: IUser
 }
