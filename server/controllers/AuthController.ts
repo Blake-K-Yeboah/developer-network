@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from 'uuid';
 import nodemailer from "nodemailer";
+import moment from "moment";
 
 // User Model
 import { User } from "../models/user";
@@ -126,27 +127,37 @@ const requestPasswordReset = async (req: Request, res: Response): Promise<Respon
 const resetPasswordFromCode = async (req: Request, res: Response): Promise<Response> => {
 
     // Check Verification Code exists in database
-    const resetToken: IResetToken | null = ResetToken.findOne({ token: req.body.verifyCode });
+    const resetToken: IResetToken | null = await ResetToken.findOne({ token: req.body.verifyCode });
 
     if (!resetToken) {
         return res.status(400).json({ msg: "Invalid verification code provided."});
     }
 
     // Check verification code matches user
-    const user = User.findOne({ email: req.body.email });
+    const user: IUser = await User.findOne({ email: req.body.email });
 
     if (!user) {
         return res.status(400).json({ msg: "No user with that email."});
     }
 
-    if (resetToken.user !== user._id) {
+    if (resetToken.user != user._id) {
         return res.status(400).json({ msg: "Invalid verification code provided."});
     }
 
-    // TODO: Check verification code hasnt expired
-    // TODO: Update password in database
+    // Check verification code hasnt expired
+    const hours = moment().diff(moment(resetToken.createdAt), 'hours', true);
 
-    return res.json({ msg: "hi" });
+    if (hours > 1) {
+        return res.status(400).json({ msg: "Verification code has expired."});
+    }
+
+    // TODO: Update password in database
+    const hashedPassword = await bcrypt.hash(req.body.newPassword, 12);
+
+    user.password = hashedPassword;
+
+    const updatedUser = await user.save();
+    return res.send("Success!");
 }
 
 export default {
