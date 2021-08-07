@@ -1,4 +1,6 @@
-export interface IUser {
+import { Document } from 'mongoose'
+
+export interface IUser extends Document {
     _id: string,
     name: string,
     username: string,
@@ -15,7 +17,7 @@ export interface IFriend {
     date: string
 }
 
-export interface IResetToken {
+export interface IResetToken extends Document  {
     _id: string,
     user: string,
     token: string,
