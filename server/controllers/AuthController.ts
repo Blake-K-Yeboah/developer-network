@@ -48,12 +48,20 @@ const registerUser = async (req: Request, res: Response): Promise<Response> => {
         bio: req.body.bio
     });
 
-    const savedUser: IUser = newUser.save();
+    try {
 
-    // Generate and respond with JWT
-    const token = generateAuthToken(savedUser);
+        const savedUser: IUser = newUser.save();
 
-    return res.json({ token });
+        // Generate and respond with JWT
+        const token = generateAuthToken(savedUser);
+
+        return res.json({ token });
+
+    } catch (err) {
+
+        return res.status(500).json({ msg: "An error occured on the server"});
+
+    }
 }
 
 // Login
@@ -96,7 +104,15 @@ const requestPasswordReset = async (req: Request, res: Response): Promise<Respon
         token
     });
 
-    const savedToken = await newToken.save();
+    try {
+
+        const savedToken = await newToken.save();
+
+    } catch (err) {
+
+        return res.status(500).json({ msg: "An error occured on the server"});
+        
+    }
     
     // Send Email To User With Token
     const transporter = nodemailer.createTransport({
@@ -155,9 +171,17 @@ const resetPasswordFromCode = async (req: Request, res: Response): Promise<Respo
     const hashedPassword = await bcrypt.hash(req.body.newPassword, 12);
 
     user.password = hashedPassword;
+    
+    try {
 
-    const updatedUser = await user.save();
-    return res.send("Success!");
+        const updatedUser = await user.save();
+        return res.send("Success!");
+
+    } catch (err) {
+
+        return res.status(500).json({ msg: "An error occured on the server"});
+        
+    }
 }
 
 export default {
