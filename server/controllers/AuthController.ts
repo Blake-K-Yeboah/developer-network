@@ -17,7 +17,7 @@ import { ResetToken } from "../models/resetToken";
 import generateAuthToken from "../config/generateAuthToken";
 
 // Interfaces
-import { IUser, IResetToken } from "../config/interface";
+import { IUser, IResetToken, AuthRequest } from "../config/interface";
 
 // Register User
 const registerUser = async (req: Request, res: Response): Promise<Response> => {
@@ -184,9 +184,15 @@ const resetPasswordFromCode = async (req: Request, res: Response): Promise<Respo
     }
 }
 
+// Reset Password While Logged In
+const resetPassword = async (req: AuthRequest, res: Response): Promise<Response> => {
+    return res.json({ msg: "Hi" });
+}
+
 export default {
     registerUser,
     login,
     requestPasswordReset,
-    resetPasswordFromCode
+    resetPasswordFromCode,
+    resetPassword,
 };
