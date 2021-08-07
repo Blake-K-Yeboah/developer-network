@@ -212,8 +212,6 @@ const resetPassword = async (req: AuthRequest, res: Response): Promise<Response>
         return res.status(500).json({ msg: "An error occured on the server"});
         
     }
-
-    return res.json({ msg: "Hi" });
 }
 
 export default {
