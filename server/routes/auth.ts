@@ -1,7 +1,9 @@
 import express from "express";
 
-// Middleware
+// Validation Middleware
 import { validateRegisterInput, validateLoginInput, validateResetPasswordFromCodeInput, validateResetPassword } from "../middleware/validation";
+
+// Authentication Middleware
 import authenticate from "../middleware/authenticate";
 
 // Auth Controller
