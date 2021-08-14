@@ -27,13 +27,18 @@ router.post("/request-password-reset", AuthController.requestPasswordReset);
 
 // @route PUT api/auth/reset-password-from-code
 // @desc Reset password using verification code emailed
-// @access Public
+// @access Private
 router.put("/reset-password-from-code", validateResetPasswordFromCodeInput, AuthController.resetPasswordFromCode);
 
 // @route PUT api/auth/reset-password
 // @desc Reset password after being logged in
-// @access Public
+// @access Private
 router.put("/reset-password", authenticate, validateResetPassword, AuthController.resetPassword)
+
+// @route PUT api/auth/update-details
+// @desc Update user's details
+// @access Private
+router.put("/update-details", authenticate, AuthController.updateUser);
 
 // Export Router
 export default router;
