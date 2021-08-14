@@ -214,10 +214,50 @@ const resetPassword = async (req: AuthRequest, res: Response): Promise<Response>
     }
 }
 
+// Update User
+const updateUser = async (req: AuthRequest, res: Response): Promise<Response> => {
+
+    // Get user from DB
+    const user = await User.findById(req.user!._id);
+
+    // Update bio if exists
+    if (req.body.bio) {
+        user.bio = req.body.bio;
+    }
+
+    // Update name if exists
+    if (req.body.name && req.body.name.length > 20) {
+        return res.status(400).json({ msg: "Name must be less than 20 characters" })
+    } else if (req.body.name) {
+        user.name = req.body.name;
+    }
+
+    // Update username if exists
+    if (req.body.username) {
+        user.username = req.body.username;
+    }
+
+    try {
+
+        const updatedUser = await user.save();
+        
+        // Generate and respond with JWT
+        const token = generateAuthToken(updatedUser);
+
+        return res.json({ token });
+
+    } catch (err) {
+
+        return res.status(500).json({ msg: "An error occured on the server"});
+        
+    }
+}
+
 export default {
     registerUser,
     login,
     requestPasswordReset,
     resetPasswordFromCode,
     resetPassword,
+    updateUser
 };
