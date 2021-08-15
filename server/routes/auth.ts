@@ -1,7 +1,7 @@
 import express from "express";
 
 // Validation Middleware
-import { validateRegisterInput, validateLoginInput, validateResetPasswordFromCodeInput, validateResetPassword } from "../middleware/validation";
+import { validateRegisterInput, validateLoginInput, validateResetPasswordFromCodeInput, validateResetPassword, validateProfilePicture } from "../middleware/validation";
 
 // Authentication Middleware
 import authenticate from "../middleware/authenticate";
@@ -41,6 +41,11 @@ router.put("/reset-password", authenticate, validateResetPassword, AuthControlle
 // @desc Update user's details
 // @access Private
 router.put("/update-details", authenticate, AuthController.updateUser);
+
+// @route PUT api/auth/profile-pic
+// @desc Upload a profile picture
+// @access Private
+router.put("/profile-pic", authenticate, validateProfilePicture, AuthController.uploadProfilePicture);
 
 // Export Router
 export default router;
