@@ -253,11 +253,55 @@ const updateUser = async (req: AuthRequest, res: Response): Promise<Response> =>
     }
 }
 
+// Upload Profile Picture
+const uploadProfilePicture = async (req: AuthRequest, res: Response): Promise<Response> => {
+
+    // Uploaded file
+    const file: any = req.files!.profilePic;
+
+    // New name for file to be saved under
+    const newFileName = `${req.user!._id}.${file.name.split('.')[1]}`;
+
+    // URL to move file to
+    const moveUrl = process.env.NODE_ENV === "production" ? `./client/build/uploads/profile/${newFileName}` : `./client/public/uploads/profile/${newFileName}`;
+
+    // Upload file
+    file.mv(moveUrl, (err: any) => {
+        if (err) {
+            console.error(err);
+
+            return res.status(500).json({ msg: "An error occured on the server"});
+        }
+    })
+
+    // Select user and update profile picture in DB
+    const user: IUser = await User.findById(req.user!._id);
+
+    user.profilePicture = newFileName;
+
+    try {
+
+        const updatedUser = await user.save();
+        
+        // Generate and respond with JWT
+        const token = generateAuthToken(updatedUser);
+
+        return res.json({ token });
+
+    } catch (err) {
+
+        return res.status(500).json({ msg: "An error occured on the server"});
+
+    }
+}
+
+
 export default {
     registerUser,
     login,
     requestPasswordReset,
     resetPasswordFromCode,
     resetPassword,
-    updateUser
+    updateUser,
+    uploadProfilePicture,
 };
