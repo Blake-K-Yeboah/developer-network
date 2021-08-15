@@ -101,3 +101,24 @@ export const validateResetPassword = async (req: Request, res: Response, next: N
 
     next();
 }
+
+export const validateProfilePicture = async (req: Request, res: Response, next: NextFunction) => {
+    const { profilePic }: any = req.files!;
+
+    if (!profilePic) {
+        return res.status(400).json({ msg: "Please upload a profile picture."});
+    }
+
+    const fileType: string = profilePic.name.split('.')[1];
+    const allowedTypes: string[] = ["png", "jpg", "jpeg"];
+
+    if (!allowedTypes.includes(fileType)) {
+        return res.status(400).json({ msg: "File must be a png or jpg image."});
+    }
+
+    if (profilePic.size > 8e+6) {
+        return res.status(400).json({ msg: "Image is too large."})
+    }
+
+    next();
+}
