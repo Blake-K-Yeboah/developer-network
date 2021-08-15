@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
 import helmet from "helmet";
+import fileUpload from "express-fileupload";
 
 // Initiate Express Server
 const app = express();
@@ -25,10 +26,13 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false}));
 app.use(express.json());
 
+// File Upload Middleware
+app.use(fileUpload());
+
 // Import Database Config
 import './config/database';
 
-// Import Routes
+// Import Routers
 import AuthRouter from "./routes/auth";
 
 // Use Routes
