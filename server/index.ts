@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
+import helmet from "helmet";
 
 // Initiate Express Server
 const app = express();
@@ -14,6 +15,8 @@ dotenv.config();
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "client", "build")));
 }
+// Helmet
+app.use(helmet());
 
 // CORS middleware
 app.use(cors());
