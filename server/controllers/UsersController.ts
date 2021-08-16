@@ -1,5 +1,5 @@
 //  Express Types
-import { Request, Response } from "express";
+import { Response } from "express";
 
 // Interfaces
 import { AuthRequest, IUser } from "../config/interface";
@@ -20,6 +20,22 @@ const getAllUsers = async (req: AuthRequest, res: Response): Promise<Response> =
     });
 }
 
+// Get user by id
+const getUserById = async (req: AuthRequest, res: Response): Promise<Response> => {
+
+    // Find User
+    const user: IUser = await User.findById(req.params.id);
+
+    // Check if user exists
+    if (user) {
+        return res.json(user);
+    } else {
+        return res.status(400).json({ msg: "No user with that ID."});
+    }
+
+}
+
 export default {
-    getAllUsers
+    getAllUsers,
+    getUserById
 }
