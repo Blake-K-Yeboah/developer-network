@@ -14,5 +14,10 @@ const router = express.Router();
 // @access Private
 router.get("/", authenticate, UsersController.getAllUsers);
 
+// @route GET api/users/:id
+// @desc Get user by id
+// @access Private
+router.get("/:id", authenticate, UsersController.getUserById);
+
 // Export Router
 export default router;
