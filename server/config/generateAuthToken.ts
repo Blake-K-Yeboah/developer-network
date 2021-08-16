@@ -15,7 +15,7 @@ export default (user: IUser): string => {
             email: user.email,
             profilePicture: user.profilePicture,
             bio: user.bio,
-            friends: user.friends,
+            followers: user.followers,
             createdAt: user.createdAt
         },
         secret!,
