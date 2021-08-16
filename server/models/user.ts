@@ -34,7 +34,7 @@ const userSchema = new Schema({
         trim: true
     },
     followers: [{
-        username: String,
+        userId: String,
         date: { type: Date, default: Date.now }
     }],
     createdAt: {
