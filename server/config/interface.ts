@@ -9,12 +9,12 @@ export interface IUser extends Document {
     email: string,
     profilePicture: string,
     bio: string,
-    friends: IFriend[],
+    followers: IFollower[],
     createdAt: string
 }
 
-export interface IFriend {
-    username: string,
+export interface IFollower {
+    userId: string,
     date: string
 }
 
