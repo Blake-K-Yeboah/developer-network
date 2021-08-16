@@ -35,7 +35,43 @@ const getUserById = async (req: AuthRequest, res: Response): Promise<Response> =
 
 }
 
+// Follow User
+const followUser = async (req: AuthRequest, res: Response): Promise<Response> => {
+
+    // Find User
+    const user: IUser = await User.findById(req.params.id);
+
+    // If user doesnt exist return error
+    if (!user) {
+        return res.status(400).json({ msg: "No user with that ID."});
+    }
+
+    // If user is following
+    if (user.followers.filter(follower => follower.userId === req.user!._id).length > 0) {
+
+        return res.status(400).json({ msg: "You're already following that user."});
+
+    } else {
+
+        const newFollower = {
+            userId: req.user!._id,
+            date: new Date().toISOString()
+        }
+
+        user.followers.push(newFollower);
+
+        try {
+            const savedUser = await user.save();
+            return res.json(savedUser);
+        } catch (err) {
+            return res.status(500).json({ msg: "An error occured on the server."});
+        }
+    }
+}
+
+
 export default {
     getAllUsers,
-    getUserById
+    getUserById,
+    followUser,
 }
