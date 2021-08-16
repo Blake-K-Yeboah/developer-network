@@ -16,7 +16,7 @@ const getAllUsers = async (req: AuthRequest, res: Response): Promise<Response> =
     // Return all users
     return res.json({
         count: users.length,
-        results: users
+        results: users.sort((a,b) => a.createdAt > b.createdAt ? -1 : 1)
     });
 }
 
