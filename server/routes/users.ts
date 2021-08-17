@@ -19,5 +19,10 @@ router.get("/", authenticate, UsersController.getAllUsers);
 // @access Private
 router.get("/:id", authenticate, UsersController.getUserById);
 
+// @route GET api/users/:id
+// @desc Get user by id
+// @access Private
+router.post("/:id/follow", authenticate, UsersController.followUser);
+
 // Export Router
 export default router;
