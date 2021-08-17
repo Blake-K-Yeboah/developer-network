@@ -14,6 +14,7 @@ export interface IUser extends Document {
 }
 
 export interface IFollower {
+    _id?: string
     userId: string,
     date: string
 }
