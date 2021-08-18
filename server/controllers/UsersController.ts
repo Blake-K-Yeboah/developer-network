@@ -69,9 +69,38 @@ const followUser = async (req: AuthRequest, res: Response): Promise<Response> =>
     }
 }
 
+// Unfollow User
+const unfollowUser = async (req: AuthRequest, res: Response): Promise<Response> => {
+
+    // Find User
+    const user: IUser = await User.findById(req.params.id);
+
+    // If user doesnt exist return error
+    if (!user) {
+        return res.status(400).json({ msg: "No user with that ID."});
+    }
+
+    // If user isn't following
+    if (user.followers.filter(follower => follower.userId === req.user!._id).length === 0) {
+
+        return res.status(400).json({ msg: "You're not following that user."});
+
+    } else {
+
+        user.followers = user.followers.filter(follower => follower.userId !== req.user!._id);
+        
+        try {
+            const savedUser = await user.save();
+            return res.json(savedUser);
+        } catch (err) {
+            return res.status(500).json({ msg: "An error occured on the server."});
+        }
+    }
+}
 
 export default {
     getAllUsers,
     getUserById,
     followUser,
+    unfollowUser,
 }
