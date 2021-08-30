@@ -34,11 +34,13 @@ import './config/database';
 
 // Import Routers
 import AuthRouter from "./routes/auth";
-import UsersRouter from "./routes/users"
+import UsersRouter from "./routes/users";
+import ProjectsRouter from "./routes/projects";
 
 // Use Routes
 app.use("/api/auth", AuthRouter);
 app.use("/api/users", UsersRouter);
+app.use("/api/projects", ProjectsRouter);
 
 // Serve React App If In Production
 if (process.env.NODE_ENV === "production") {
