@@ -34,6 +34,22 @@ const getProjectById = async (req: AuthRequest, res: Response): Promise<Response
     }
 }
 
+// Create Project
+const createProject = async (req: AuthRequest, res: Response): Promise<Response> => {
+
+    // Check if user has a project with same name
+    const sameNameProject: IProject = await Project.find({ user: req.user!._id, name: req.body.name });
+
+    if (sameNameProject) {
+        return res.status(400).json({ msg: "You already have a project with that name." });
+    }
+
+    // TODO: Upload project image
+    // TODO: Create and save project
+
+    return res.json({ msg: "Hi"})
+}
+
 export default {
     getAllProjects,
     getProjectById,
