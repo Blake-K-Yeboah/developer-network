@@ -122,3 +122,7 @@ export const validateProfilePicture = async (req: Request, res: Response, next: 
 
     next();
 }
+
+export const validateProjectInput = async (req: Request, res: Response, next: NextFunction) => {
+    // TODO: Write this function
+}
