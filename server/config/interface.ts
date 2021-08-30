@@ -29,3 +29,20 @@ export interface IResetToken extends Document  {
 export interface AuthRequest extends Request {
     user?: IUser
 }
+
+export interface IProject extends Document {
+    _id: string,
+    name: string,
+    description: string,
+    image: string,
+    likes: {
+        count: number,
+        userIds: string[]
+    },
+    dislikes: {
+        count: number,
+        userIds: string[]
+    },
+    createdAt: string,
+    user: string
+}
