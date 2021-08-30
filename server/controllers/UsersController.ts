@@ -30,7 +30,7 @@ const getUserById = async (req: AuthRequest, res: Response): Promise<Response> =
     if (user) {
         return res.json(user);
     } else {
-        return res.status(400).json({ msg: "No user with that ID."});
+        return res.status(404).json({ msg: "No user with that ID."});
     }
 
 }
@@ -43,7 +43,7 @@ const followUser = async (req: AuthRequest, res: Response): Promise<Response> =>
 
     // If user doesnt exist return error
     if (!user) {
-        return res.status(400).json({ msg: "No user with that ID."});
+        return res.status(404).json({ msg: "No user with that ID."});
     }
 
     // If user is following
@@ -77,7 +77,7 @@ const unfollowUser = async (req: AuthRequest, res: Response): Promise<Response> 
 
     // If user doesnt exist return error
     if (!user) {
-        return res.status(400).json({ msg: "No user with that ID."});
+        return res.status(404).json({ msg: "No user with that ID."});
     }
 
     // If user isn't following
