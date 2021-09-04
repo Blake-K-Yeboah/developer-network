@@ -38,19 +38,54 @@ const getProjectById = async (req: AuthRequest, res: Response): Promise<Response
 const createProject = async (req: AuthRequest, res: Response): Promise<Response> => {
 
     // Check if user has a project with same name
-    const sameNameProject: IProject = await Project.find({ user: req.user!._id, name: req.body.name });
+    const sameNameProject: IProject = await Project.findOne({ user: req.user!._id, name: req.body.name });
 
     if (sameNameProject) {
         return res.status(400).json({ msg: "You already have a project with that name." });
     }
+    
+    // Uploaded file
+    const file: any = req.files!.image;
 
-    // TODO: Upload project image
-    // TODO: Create and save project
+    // New name for file to be saved under
+    const newFileName = `${req.user!._id}-${req.body.name}.${file.name.split('.')[1]}`;
 
-    return res.json({ msg: "Hi"})
+    // URL to move file to
+    const moveUrl = process.env.NODE_ENV === "production" ? `./client/build/uploads/projects/${newFileName}` : `./client/public/uploads/projects/${newFileName}`;
+
+    // Upload file
+    file.mv(moveUrl, (err: any) => {
+        if (err) {
+            console.error(err);
+
+            return res.status(500).json({ msg: "An error occured on the server"});
+        }
+    });
+
+    // Create Project
+    const newProject = new Project({
+        name: req.body.name,
+        description: req.body.description,
+        image: req.body.description,
+        user: req.user!._id
+    });
+
+    try {
+
+        // Save Project
+        const savedProject = await newProject.save();
+
+        return res.json(savedProject);
+
+    } catch (err) {
+
+        return res.status(500).json({ msg: "An error occured on the server"});
+
+    }
 }
 
 export default {
     getAllProjects,
     getProjectById,
+    createProject,
 }
