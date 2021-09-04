@@ -6,6 +6,9 @@ import authenticate from "../middleware/authenticate";
 // Projects Controller
 import ProjectsController from "../controllers/ProjectsController";
 
+// Validation Middleware
+import { validateProjectInput } from "../middleware/validation";
+
 // Define Router
 const router = express.Router();
 
@@ -18,6 +21,11 @@ router.get("/", authenticate, ProjectsController.getAllProjects);
 // @desc Get project by id
 // @access Private
 router.get("/:id", authenticate, ProjectsController.getProjectById);
+
+// @route POST api/projects/create
+// @desc Create Project
+// @access Private
+router.post("/create", authenticate, validateProjectInput, ProjectsController.createProject);
 
 // Export Router
 export default router;
