@@ -16,12 +16,24 @@ const projectSchema = new Schema({
         required: true
     },
     likes: {
-        count: Number,
-        userIds: Array
+        count: {
+            type: Number,
+            default: 0
+        },
+        userIds: {
+            type: Array,
+            default: []
+        }
     },
     dislikes: {
-        count: Number,
-        userIds: Array
+        count: {
+            type: Number,
+            default: 0
+        },
+        userIds: {
+            type: Array,
+            default: []
+        }
     },
     createdAt: {
         type: Date,
