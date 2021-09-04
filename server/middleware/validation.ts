@@ -117,12 +117,43 @@ export const validateProfilePicture = async (req: Request, res: Response, next: 
     }
 
     if (profilePic.size > 8e+6) {
-        return res.status(400).json({ msg: "Image is too large."})
+        return res.status(400).json({ msg: "Image is too large. 8 MB limit"})
     }
 
     next();
 }
 
 export const validateProjectInput = async (req: Request, res: Response, next: NextFunction) => {
-    // TODO: Write this function
+    const { image }: any = req.files!; 
+    const { name, description }: any = req.body;
+
+    
+    if (!name) {
+        return res.status(400).json({ msg: "Please enter a name for your project."});
+    } else if (name.length > 25) {
+        return res.status(400).json({ msg: "Project's name can only be 25 characters long."});
+    }
+
+    if (!description) {
+        return res.status(400).json({ msg: "Please enter a description for your project."});
+    } else if (description.length > 100) {
+        return res.status(400).json({ msg: "Project's description can only be 100 characters long."});
+    }
+
+    if (!image) {
+        return res.status(400).json({ msg: "Please upload an image."});
+    }
+
+    const fileType: string = image.name.split('.')[1];
+    const allowedTypes: string[] = ["png", "jpg", "jpeg"];
+
+    if (!allowedTypes.includes(fileType)) {
+        return res.status(400).json({ msg: "File must be a png or jpg image."});
+    }
+
+    if (image.size > 8e+6) {
+        return res.status(400).json({ msg: "Image is too large. 8 MB limit"})
+    }
+    
+    next();
 }
