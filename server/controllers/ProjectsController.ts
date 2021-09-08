@@ -84,8 +84,17 @@ const createProject = async (req: AuthRequest, res: Response): Promise<Response>
     }
 }
 
+// Delete Project
+const deleteProject = async (req: AuthRequest, res: Response): Promise<Response> => {
+    // Check Project Exists
+    // Check User Owns Project
+    // Delete Project
+    return res.send("Project Deleted.");
+}
+
 export default {
     getAllProjects,
     getProjectById,
     createProject,
+    deleteProject,
 }
