@@ -30,10 +30,15 @@ router.get("/:id", authenticate, checkObjectId, ProjectsController.getProjectByI
 // @access Private
 router.post("/create", authenticate, validateProjectInput, ProjectsController.createProject);
 
-// @route DELETE api/projects/":id
+// @route DELETE api/projects/:id
 // @desc Delete Project
 // @access Private
 router.delete("/:id", authenticate, ProjectsController.deleteProject);
+
+// @route PUT api/projects/:id
+// @desc Edit Project
+// @access Private
+router.put("/:id", authenticate, ProjectsController.editProject);
 
 // Export Router
 export default router;
