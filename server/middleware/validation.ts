@@ -124,7 +124,6 @@ export const validateProfilePicture = async (req: Request, res: Response, next: 
 }
 
 export const validateProjectInput = async (req: Request, res: Response, next: NextFunction) => {
-    const { image }: any = req.files!; 
     const { name, description }: any = req.body;
 
     
@@ -140,9 +139,11 @@ export const validateProjectInput = async (req: Request, res: Response, next: Ne
         return res.status(400).json({ msg: "Project's description can only be 100 characters long."});
     }
 
-    if (!image) {
+    if (!req.files) {
         return res.status(400).json({ msg: "Please upload an image."});
     }
+
+    const { image }: any = req.files!;
 
     const fileType: string = image.name.split('.')[1];
     const allowedTypes: string[] = ["png", "jpg", "jpeg"];
