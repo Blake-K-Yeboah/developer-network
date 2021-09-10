@@ -66,7 +66,7 @@ const createProject = async (req: AuthRequest, res: Response): Promise<Response>
     const newProject = new Project({
         name: req.body.name,
         description: req.body.description,
-        image: req.body.description,
+        image: newFileName,
         user: req.user!._id
     });
 
@@ -109,9 +109,37 @@ const deleteProject = async (req: AuthRequest, res: Response): Promise<Response>
     }
 }
 
+// Edit Project
+const editProject = async (req: AuthRequest, res: Response): Promise<Response> => {
+    // Check Project Exists
+    const project: IProject = await Project.findById(req.params.id);
+
+    if (!project) {
+        return res.status(404).json({ msg: "Project doesn't exist."});
+    }
+
+    // Update fields in project
+    if (req.body.name) {
+        project.name = req.body.name;
+    }
+
+    if (req.body.description) {
+        project.description = req.body.description;
+    }
+
+    // Save and return project
+    try {
+        const savedProject = await project.save();
+        return res.json(savedProject);
+    } catch (err) {
+        return res.status(500).json({ msg: "An error occured on the server. Try again later."});
+    }
+}
+
 export default {
     getAllProjects,
     getProjectById,
     createProject,
     deleteProject,
+    editProject,
 }
