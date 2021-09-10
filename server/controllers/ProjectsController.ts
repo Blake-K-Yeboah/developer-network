@@ -87,9 +87,26 @@ const createProject = async (req: AuthRequest, res: Response): Promise<Response>
 // Delete Project
 const deleteProject = async (req: AuthRequest, res: Response): Promise<Response> => {
     // Check Project Exists
+    const project: IProject = await Project.findById(req.params.id);
+
+    if (!project) {
+        return res.status(404).json({ msg: "Project doesn't exist."});
+    }
+
     // Check User Owns Project
+    const userId = req.user!._id;
+
+    if (project.user != userId) {
+        return res.status(401).json({ msg: "You dont have permission to do that."});
+    }
+
     // Delete Project
-    return res.send("Project Deleted.");
+    try {
+        await project.delete();
+        return res.json(project);
+    } catch (err) {
+        return res.status(500).json({ msg: "An error occured on the server. Try again later."});
+    }
 }
 
 export default {
