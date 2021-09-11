@@ -136,10 +136,80 @@ const editProject = async (req: AuthRequest, res: Response): Promise<Response> =
     }
 }
 
+// Like Project
+const likeProject = async (req: AuthRequest, res: Response): Promise<Response> => {
+    // Check Project Exists
+    const project: IProject = await Project.findById(req.params.id);
+
+    if (!project) {
+        return res.status(404).json({ msg: "Project doesn't exist."});
+    }
+
+    // Check if user already likes project
+    if (project.likes.userIds.includes(req.user!._id)) {
+        // Remove Like
+        project.likes.count -= 1;
+        project.likes.userIds = project.likes.userIds.filter(id => id != req.user!._id);
+
+    } else {
+        // Add Like
+        project.likes.count += 1;
+        project.likes.userIds.push(req.user!._id);
+
+    }
+
+    try {
+        // Save Project
+        const savedProject = await project.save();
+        return res.json(savedProject);
+
+    } catch (err) {
+        // Return server error
+        return res.status(500).json({ msg: "An error occured on the server. Try again later."});
+    }
+
+}
+
+// Dislike Project
+const dislikeProject = async (req: AuthRequest, res: Response): Promise<Response> => {
+    // Check Project Exists
+    const project: IProject = await Project.findById(req.params.id);
+
+    if (!project) {
+        return res.status(404).json({ msg: "Project doesn't exist."});
+    }
+
+    // Check if user already dislikes project
+    if (project.dislikes.userIds.includes(req.user!._id)) {
+        // Remove Dislike
+        project.dislikes.count -= 1;
+        project.dislikes.userIds = project.dislikes.userIds.filter(id => id != req.user!._id);
+
+    } else {
+        // Add Dislike
+        project.dislikes.count += 1;
+        project.dislikes.userIds.push(req.user!._id);
+
+    }
+
+    try {
+        // Save Project
+        const savedProject = await project.save();
+        return res.json(savedProject);
+
+    } catch (err) {
+        // Return server error
+        return res.status(500).json({ msg: "An error occured on the server. Try again later."});
+    }
+
+}
+
 export default {
     getAllProjects,
     getProjectById,
     createProject,
     deleteProject,
     editProject,
+    likeProject,
+    dislikeProject,
 }
