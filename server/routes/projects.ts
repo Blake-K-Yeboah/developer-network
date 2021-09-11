@@ -40,5 +40,15 @@ router.delete("/:id", authenticate, ProjectsController.deleteProject);
 // @access Private
 router.put("/:id", authenticate, ProjectsController.editProject);
 
+// @route PUT api/projects/:id/like
+// @desc Like Project
+// @access Private
+router.put("/:id/like", authenticate, ProjectsController.likeProject);
+
+// @route PUT api/projects/:id/dislike
+// @desc Dislike Project
+// @access Private
+router.put("/:id/dislike", authenticate, ProjectsController.dislikeProject);
+
 // Export Router
 export default router;
