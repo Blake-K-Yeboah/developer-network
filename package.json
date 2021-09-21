@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node dist/index.js",
     "server": "ts-node-dev server/index.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "client": "cd client && yarn start",
+    "dev": "concurrently -kill-others \"yarn run server\" \"yarn run client\""
   },
   "repository": "git@github.com:Blake-K-Yeboah/developer-network.git",
   "author": "Blake Yeboah <blakekyeboah@gmail.com>",
