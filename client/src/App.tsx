@@ -1,12 +1,12 @@
-// Stylesheet
-import './App.scss';
+// Global Style
+import GlobalStyle from "./components/styles/Global";
 
 function App() {
-  return (
-    <div>
-      Hello There!
-    </div>
-  );
+    return (
+        <>
+            <GlobalStyle />
+        </>
+    );
 }
 
 export default App;
