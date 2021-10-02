@@ -3,16 +3,18 @@ import { Helmet } from "react-helmet";
 
 // Components
 import PageHeading from "../../layout/PageHeading";
+import Footer from "../../layout/Footer";
 
 const Home = (props: any) => {
-    const [action, setAction] = useState<string>("Sign In");
+    const [action, setAction] = useState<string>("sign-in");
 
     return (
         <>
             <Helmet>
-                <title>Developer Network - {action}</title>
+                <title>Developer Network - Home</title>
             </Helmet>
             <PageHeading />
+            <Footer sticky={true} />
         </>
     );
 };
