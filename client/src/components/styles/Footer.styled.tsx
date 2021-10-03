@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import { ITheme } from "../../types";
 
 export const StyledFooter = styled.footer<{ sticky: boolean }>`
-    background: rgba(255, 255, 255, 0.61);
+    background: ${({ theme }: { theme: ITheme }) => theme.colors.fadedWhite};
     height: 75px;
     backdrop-filter: blur(12px);
     position: ${(props: any) => (props.sticky ? "absolute" : "relative")};
