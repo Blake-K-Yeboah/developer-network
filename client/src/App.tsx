@@ -21,11 +21,8 @@ import { useSelector } from "react-redux";
 // RootState Type
 import { RootState } from "./store";
 
-const theme = {
-    colors: {
-        lightGray: "#7E7E7E",
-    },
-};
+// Theme
+import { theme } from "./theme";
 
 const App = () => {
     // isAuthenticated
