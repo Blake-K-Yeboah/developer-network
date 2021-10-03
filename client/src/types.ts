@@ -20,3 +20,12 @@ export interface IAuthSliceState {
     error: string | null;
     token: string | null;
 }
+
+export interface ITheme {
+    colors: {
+        lightGray: string;
+        primaryBlue: string;
+        primaryRed: string;
+        fadedWhite: string;
+    };
+}
