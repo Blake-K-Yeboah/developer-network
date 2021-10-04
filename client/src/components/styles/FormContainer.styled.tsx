@@ -16,15 +16,24 @@ export const StyledFormContainer = styled.div<{
     backdrop-filter: blur(12px);
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-auto-flow: dense;
+
+    ${({ rightPanelActive }) =>
+        rightPanelActive &&
+        `
+        div:first-of-type {
+            grid-column-start: 2;
+        }
+    `}
 
     &::before {
         content: "";
         width: 50%;
         height: 100%;
-        background: rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.45);
         position: absolute;
         top: 0;
-        transition: left 0.5s ease-in-out;
+        transition: 0.5s ease-in-out;
         z-index: -1;
 
         ${({ rightPanelActive }) =>
@@ -53,18 +62,21 @@ export const StyledFormSubText = styled.p`
     font-weight: 100;
     text-align: center;
     margin: 0.75em 0;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     color: #a4a4a4;
     letter-spacing: 0.5px;
+    width: 75%;
+    line-height: 1.5;
 `;
 
-export const StyledPanel = styled.div`
+export const StyledPanel = styled.div<{ animate: boolean }>`
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    ${({ animate }) => animate && `animation: fade .75s linear;`}
 `;
 
 export const StyledForm = styled.form`
@@ -74,6 +86,8 @@ export const StyledForm = styled.form`
     & > input {
         margin: 0 0 2.1em 0;
     }
+
+    text-align: left;
 `;
 
 export const StyledInput = styled.input`
@@ -84,7 +98,8 @@ export const StyledInput = styled.input`
     border-radius: 5px;
     padding-left: 12px;
     outline: none;
-    color: #bbb;
+    color: #333;
+    text-align: left;
 
     &:focus {
         box-shadow: 0px 0px 10px #fff;
@@ -131,12 +146,13 @@ export const StyledInputGroup = styled.div`
 export const StyledButton = styled.button<{
     theme: ITheme;
     colorScheme: string;
+    notCenter?: boolean;
 }>`
     padding: 12px 28px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    color: #000;
+    color: #555;
     font-weight: 400;
     letter-spacing: 1px;
     font-family: "Montserrat", sans-serif;
@@ -144,10 +160,20 @@ export const StyledButton = styled.button<{
         props.colorScheme === "blue"
             ? props.theme.colors.primaryDarkerBlue
             : props.theme.colors.primaryDarkerRed};
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 2em;
+    ${({ notCenter }) =>
+        !notCenter &&
+        `
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    `}
+    ${({ colorScheme, notCenter }) =>
+        colorScheme === "blue" &&
+        !notCenter &&
+        `
+        margin-top: 2.5em;
+    `}
+
     transition: opacity 0.2s ease-in-out;
 
     &:hover {
