@@ -1,8 +1,10 @@
 import React from "react";
 
 // Styled Components
-import { StyledFormContainer } from "../../styles/FormContainer.styled";
-import { StyledFormTitle } from "../../styles/FormTitle.styled";
+import {
+    StyledFormContainer,
+    StyledFormTitle,
+} from "../../styles/FormContainer.styled";
 
 interface IProps {
     action: string;
