@@ -3,22 +3,29 @@ import React from "react";
 // Styled Components
 import {
     StyledFormContainer,
+    StyledFormSubText,
     StyledFormTitle,
+    StyledPanel,
 } from "../../styles/FormContainer.styled";
+
+// Regular Components
+import SignInForm from "./SignInForm";
 
 interface IProps {
     action: string;
     setAction: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const FormContainer = (props: IProps) => {
+const FormContainer: React.FC<IProps> = (props) => {
     const rightPanelActive: boolean = props.action === "sign-up";
 
     return (
         <StyledFormContainer rightPanelActive={rightPanelActive}>
-            <div>
+            <StyledPanel>
                 <StyledFormTitle>Sign In</StyledFormTitle>
-            </div>
+                <StyledFormSubText>Welcome back developer!</StyledFormSubText>
+                <SignInForm />
+            </StyledPanel>
             <div></div>
         </StyledFormContainer>
     );
