@@ -43,6 +43,17 @@ const GlobalStyle = createGlobalStyle`
         bottom: 15vh;
         right: 22.5vw;
     }
+
+    /* Fade Animation */
+    @keyframes fade {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
 `;
 
 export default GlobalStyle;
