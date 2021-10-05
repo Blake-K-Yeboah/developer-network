@@ -59,11 +59,11 @@ export const StyledFormTitle = styled.h2`
 `;
 
 export const StyledFormSubText = styled.p`
-    font-weight: 100;
+    font-weight: 200;
     text-align: center;
     margin: 0.75em 0;
     font-size: 1.1rem;
-    color: #a4a4a4;
+    color: #999;
     letter-spacing: 0.5px;
     width: 75%;
     line-height: 1.5;
@@ -100,9 +100,11 @@ export const StyledInput = styled.input`
     outline: none;
     color: #333;
     text-align: left;
+    position: relative;
 
     &:focus {
-        box-shadow: 0px 0px 10px #fff;
+        box-shadow: 0px 0px 20px #fff;
+        border: 2px solid #fff;
     }
 
     &::placeholder {
