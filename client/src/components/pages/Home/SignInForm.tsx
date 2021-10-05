@@ -11,6 +11,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 // React and useState hook
 import React, { useState } from "react";
+import ErrorAlert from "../../Alerts/ErrorAlert";
 
 // User Input Interface
 interface IUserInput {
@@ -39,6 +40,7 @@ const SignInForm = () => {
 
     return (
         <StyledForm onSubmit={handleFormSubmit}>
+            <ErrorAlert msg="An error has occured." />
             <StyledInput
                 placeholder="Email: "
                 value={userInput.email}
