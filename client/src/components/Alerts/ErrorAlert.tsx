@@ -8,13 +8,14 @@ import { FaTimes } from "react-icons/fa";
 
 interface IProps {
     msg: string;
+    setHasError: (hasError: boolean) => void;
 }
 
-const ErrorAlert: React.FC<IProps> = ({ msg }) => {
+const ErrorAlert: React.FC<IProps> = ({ msg, setHasError }) => {
     return (
         <StyledErrorAlert>
             <p>{msg}</p>
-            <span>
+            <span onClick={() => setHasError(false)}>
                 <FaTimes />
             </span>
         </StyledErrorAlert>
