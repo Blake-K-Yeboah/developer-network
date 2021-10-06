@@ -17,7 +17,6 @@ export interface IUser {
 export interface IAuthSliceState {
     user: IUser | null;
     isAuthenticated: boolean;
-    error: string | null;
     token: string | null;
 }
 
