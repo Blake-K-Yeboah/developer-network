@@ -8,6 +8,12 @@ import {
 // React and useState hook
 import React, { useState } from "react";
 
+// Components
+import ErrorAlert from "../../Alerts/ErrorAlert";
+
+// useHistory Hook
+import { useHistory } from "react-router";
+
 // User Input Interface
 interface IUserInput {
     name: string;
@@ -19,6 +25,11 @@ const SignUpForm = () => {
         name: "",
         email: "",
     });
+    const [hasError, setHasError] = useState<boolean>(false);
+    const [error, setError] = useState<string>("");
+
+    // History
+    let history = useHistory();
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserInput({ ...userInput, [e.target.id]: e.target.value });
@@ -26,10 +37,39 @@ const SignUpForm = () => {
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (!userInput.name) {
+            setHasError(true);
+            setError("Please enter your name.");
+            return;
+        }
+
+        if (!userInput.email) {
+            setHasError(true);
+            setError("Please enter your email.");
+            return;
+        }
+
+        const emailRegex =
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        if (!emailRegex.test(String(userInput.email).toLowerCase())) {
+            setHasError(true);
+            setError("Invalid email");
+            return;
+        }
+
+        // Redirect to sigh up page
+        history.push("/sign-up?step=2");
     };
 
     return (
         <StyledForm onSubmit={handleFormSubmit}>
+            {hasError ? (
+                <ErrorAlert msg={error} setHasError={setHasError} />
+            ) : (
+                ""
+            )}
             <StyledInput
                 placeholder="Name: "
                 value={userInput.name}
