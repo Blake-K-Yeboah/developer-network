@@ -7,7 +7,6 @@ import { IAuthSliceState } from "../types";
 const initialState: IAuthSliceState = {
     user: null,
     isAuthenticated: false,
-    error: null,
     token: null,
 };
 
@@ -20,12 +19,9 @@ export const authSlice: any = createSlice({
             state.isAuthenticated = action.payload ? true : false;
             state.token = action.payload || null;
         },
-        setError: (state, action) => {
-            state.error = action.payload;
-        },
     },
 });
 
-export const { setUser, setErrors } = authSlice.actions;
+export const { setUser } = authSlice.actions;
 
 export default authSlice.reducer;
