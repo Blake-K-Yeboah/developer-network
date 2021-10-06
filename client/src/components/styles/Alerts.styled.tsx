@@ -10,13 +10,16 @@ export const StyledErrorAlert = styled.div`
     padding: 6px 12px;
     color: #fff;
     font-size: 0.85rem;
-    animation: fade 0.75s linear;
+    animation: fade 0.5s linear;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     span {
         cursor: pointer;
+        height: 100%;
+        display: flex;
+        align-items: center;
     }
 
     p {
