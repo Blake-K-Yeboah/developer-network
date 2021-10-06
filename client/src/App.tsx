@@ -15,8 +15,11 @@ import { ThemeProvider } from "styled-components";
 // Pages
 import Home from "./components/pages/Home/Home";
 
-// useSelector hook
-import { useSelector } from "react-redux";
+// useDispatch hook and useSelector hook
+import { useDispatch, useSelector } from "react-redux";
+
+// setUser action
+import { setUser } from "./slices/authSlice";
 
 // RootState Type
 import { RootState } from "./store";
@@ -24,7 +27,21 @@ import { RootState } from "./store";
 // Theme
 import { theme } from "./theme";
 
+// useEffectHook
+import { useEffect } from "react";
+
 const App = () => {
+    // Redux Dispatch
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            dispatch(setUser(token));
+        }
+    }, [dispatch]);
+
     // isAuthenticated
     const isAuthenticated = useSelector(
         (state: RootState) => state.auth.isAuthenticated
