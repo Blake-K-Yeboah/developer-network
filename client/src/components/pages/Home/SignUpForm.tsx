@@ -59,6 +59,9 @@ const SignUpForm = () => {
             return;
         }
 
+        // Store userInput in local storage
+        localStorage.setItem("userInput", JSON.stringify(userInput));
+
         // Redirect to sigh up page
         history.push("/sign-up?step=2");
     };
