@@ -182,3 +182,47 @@ export const StyledButton = styled.button<{
         opacity: 0.8;
     }
 `;
+
+export const StyledSingleFormContainer = styled.div<{
+    theme: ITheme;
+}>`
+    width: 22.5vw;
+    height: 50vh;
+    position: relative;
+    left: 50%;
+    top: 10vh;
+    transform: translateX(-50%);
+    background: ${({ theme }) => theme.colors.fadedWhite};
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+`;
+
+export const StyledProgressBar = styled.div<{
+    theme: ITheme;
+    width: string;
+}>`
+    width: 100%;
+    height: 12.5px;
+    background: ${({ theme }) => theme.colors.fadedGray};
+    border-radius: 20px 20px 0 0;
+    position: relative;
+    margin-bottom: 2em;
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 20px ${({ width }) => (width === "100%" ? "20px" : "")} 0
+            0;
+        width: ${({ width }) => width};
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            rgba(255, 159, 159, 1) 0%,
+            rgba(165, 195, 255, 1) 100%
+        );
+        z-index: 1;
+        transition: width 0.5s ease-in-out;
+    }
+`;
