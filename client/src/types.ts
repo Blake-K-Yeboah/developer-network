@@ -29,6 +29,7 @@ export interface ITheme {
         primaryBlue: string;
         primaryRed: string;
         fadedWhite: string;
+        fadedGray: string;
         primaryDarkerBlue: string;
         primaryDarkerRed: string;
     };
