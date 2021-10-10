@@ -195,6 +195,14 @@ export const StyledSingleFormContainer = styled.div<{
     background: ${({ theme }) => theme.colors.fadedWhite};
     border-radius: 20px;
     backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    form {
+        margin-top: 2em;
+    }
 `;
 
 export const StyledProgressBar = styled.div<{
@@ -205,8 +213,8 @@ export const StyledProgressBar = styled.div<{
     height: 12.5px;
     background: ${({ theme }) => theme.colors.fadedGray};
     border-radius: 20px 20px 0 0;
-    position: relative;
-    margin-bottom: 2em;
+    position: absolute;
+    top: 0;
 
     &::after {
         content: "";
@@ -225,4 +233,20 @@ export const StyledProgressBar = styled.div<{
         z-index: 1;
         transition: width 0.5s ease-in-out;
     }
+`;
+
+export const StyledInputLabel = styled.p`
+    font-weight: 200;
+    font-size: 1.1rem;
+    text-align: center;
+    margin: 0 0 0.75em 0;
+    color: #999;
+    letter-spacing: 0.5px;
+    line-height: 1.5;
+`;
+
+export const StyledButtonGroup = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2em;
 `;
