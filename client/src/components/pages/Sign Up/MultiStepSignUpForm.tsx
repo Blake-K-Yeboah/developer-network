@@ -46,6 +46,7 @@ const MultiStepSignUpForm: React.FC<IProps> = ({ step, setStep }) => {
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserInput({ ...userInput, [e.target.id]: e.target.value });
     };
+
     useEffect(() => {
         Object.keys(userInput).forEach((key) => {
             if (key in userInputFromLocal) {
@@ -57,6 +58,14 @@ const MultiStepSignUpForm: React.FC<IProps> = ({ step, setStep }) => {
         });
         // eslint-disable-next-line
     }, []);
+
+    const continueBtnHandler = () => {
+        setStep(step + 1);
+    };
+
+    const goBackBtnHandler = () => {
+        setStep(step - 1);
+    };
 
     return (
         <StyledSingleFormContainer>
@@ -87,10 +96,19 @@ const MultiStepSignUpForm: React.FC<IProps> = ({ step, setStep }) => {
                 )}
             </StyledForm>
             <StyledButtonGroup>
-                <StyledButton colorScheme="red" notCenter disabled={step === 1}>
+                <StyledButton
+                    colorScheme="red"
+                    notCenter
+                    disabled={step === 1}
+                    onClick={goBackBtnHandler}
+                >
                     Go Back
                 </StyledButton>
-                <StyledButton colorScheme="blue" notCenter>
+                <StyledButton
+                    colorScheme="blue"
+                    notCenter
+                    onClick={continueBtnHandler}
+                >
                     Continue
                 </StyledButton>
             </StyledButtonGroup>
