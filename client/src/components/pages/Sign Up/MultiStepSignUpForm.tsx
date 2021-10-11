@@ -8,7 +8,9 @@ import {
     StyledFormTitle,
     StyledInput,
     StyledInputLabel,
+    StyledOverviewLine,
     StyledSingleFormContainer,
+    StyledSpacer,
 } from "../../styles/FormContainer.styled";
 
 // Regular Components
@@ -91,8 +93,73 @@ const MultiStepSignUpForm: React.FC<IProps> = ({ step, setStep }) => {
                             onChange={onChange}
                         />
                     </>
+                ) : step === 2 ? (
+                    <>
+                        <StyledInputLabel>
+                            What username would you like?
+                        </StyledInputLabel>
+                        <StyledInput
+                            placeholder="Username: "
+                            value={userInput.username}
+                            id="username"
+                            onChange={onChange}
+                        />
+
+                        <StyledInputLabel>
+                            What bio would you like?
+                        </StyledInputLabel>
+                        <StyledInput
+                            placeholder="Bio: "
+                            value={userInput.bio}
+                            id="bio"
+                            onChange={onChange}
+                        />
+                    </>
+                ) : step === 3 ? (
+                    <>
+                        <StyledInputLabel>
+                            What password would you like?
+                        </StyledInputLabel>
+                        <StyledInput
+                            placeholder="Password: "
+                            type="password"
+                            value={userInput.password}
+                            id="password"
+                            onChange={onChange}
+                        />
+                        <StyledSpacer />
+                    </>
                 ) : (
-                    ""
+                    <>
+                        <StyledOverviewLine>
+                            <span>Name: </span>{" "}
+                            {userInput.name ? userInput.name : <em>Missing</em>}
+                        </StyledOverviewLine>
+                        <StyledOverviewLine>
+                            <span>Email: </span>{" "}
+                            {userInput.email ? (
+                                userInput.email
+                            ) : (
+                                <em>Missing</em>
+                            )}
+                        </StyledOverviewLine>
+                        <StyledOverviewLine>
+                            <span>Username: </span>{" "}
+                            {userInput.username ? (
+                                `@${userInput.username}`
+                            ) : (
+                                <em>Missing</em>
+                            )}
+                        </StyledOverviewLine>
+                        <StyledOverviewLine>
+                            <span>Bio: </span>{" "}
+                            {userInput.bio ? userInput.bio : <em>Missing</em>}
+                        </StyledOverviewLine>
+                        <StyledOverviewLine>
+                            <span>Password: </span>{" "}
+                            {userInput.password ? "(Hidden)" : <em>Missing</em>}
+                        </StyledOverviewLine>
+                    </>
                 )}
             </StyledForm>
             <StyledButtonGroup>
@@ -109,7 +176,11 @@ const MultiStepSignUpForm: React.FC<IProps> = ({ step, setStep }) => {
                     notCenter
                     onClick={continueBtnHandler}
                 >
-                    Continue
+                    {step === 3
+                        ? "Overview"
+                        : step === 4
+                        ? "Sign Up"
+                        : "Continue"}
                 </StyledButton>
             </StyledButtonGroup>
         </StyledSingleFormContainer>
