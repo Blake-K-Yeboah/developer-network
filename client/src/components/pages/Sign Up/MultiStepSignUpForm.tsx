@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
 
+// Axios
+import axios from "axios";
+
+// Hooks
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
+
+// Redux Actions
+import { setUser } from "../../../slices/authSlice";
+
 // Styled Components
 import {
     StyledButton,
@@ -15,6 +25,7 @@ import {
 
 // Regular Components
 import ProgressBar from "./ProgressBar";
+import ErrorAlert from "../../Alerts/ErrorAlert";
 
 // Props Interface
 interface IProps {
@@ -45,6 +56,9 @@ const MultiStepSignUpForm: React.FC<IProps> = ({ step, setStep }) => {
         password: "",
     });
 
+    const [hasError, setHasError] = useState<boolean>(false);
+    const [error, setError] = useState<string>("");
+
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserInput({ ...userInput, [e.target.id]: e.target.value });
     };
@@ -61,8 +75,26 @@ const MultiStepSignUpForm: React.FC<IProps> = ({ step, setStep }) => {
         // eslint-disable-next-line
     }, []);
 
-    const continueBtnHandler = () => {
-        setStep(step + 1);
+    // Redux Dispatch
+    const dispatch = useDispatch();
+
+    // History
+    let history = useHistory();
+
+    const continueBtnHandler = async () => {
+        if (step !== 4) {
+            setStep(step + 1);
+        } else {
+            try {
+                const res = await axios.post("/api/auth/register", userInput);
+                dispatch(setUser(res.data.token));
+                localStorage.setItem("token", res.data.token);
+                history.push("/feed");
+            } catch (err: any) {
+                setHasError(true);
+                setError(err.response.data.msg);
+            }
+        }
     };
 
     const goBackBtnHandler = () => {
@@ -74,6 +106,11 @@ const MultiStepSignUpForm: React.FC<IProps> = ({ step, setStep }) => {
             <ProgressBar step={step} />
             <StyledFormTitle>Sign Up</StyledFormTitle>
             <StyledForm>
+                {hasError ? (
+                    <ErrorAlert msg={error} setHasError={setHasError} />
+                ) : (
+                    ""
+                )}
                 {step === 1 ? (
                     <>
                         <StyledInputLabel>What is your name?</StyledInputLabel>
