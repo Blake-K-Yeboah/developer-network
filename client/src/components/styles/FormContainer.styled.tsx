@@ -260,3 +260,25 @@ export const StyledButtonGroup = styled.div`
     grid-template-columns: 1fr 1fr;
     column-gap: 2em;
 `;
+
+export const StyledSpacer = styled.div`
+    height: 100px;
+    margin: 0.4em 0;
+`;
+
+export const StyledOverviewLine = styled.p`
+    span {
+        font-weight: 500;
+        color: #444;
+    }
+
+    em {
+        color: red;
+    }
+
+    color: #888;
+    font-weight: 300;
+    font-size: 1rem;
+    margin: 0 0 1.65em 0;
+    text-align: center;
+`;
