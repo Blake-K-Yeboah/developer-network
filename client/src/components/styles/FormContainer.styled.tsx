@@ -181,6 +181,16 @@ export const StyledButton = styled.button<{
     &:hover {
         opacity: 0.8;
     }
+
+    &:disabled {
+        background-color: #ddd;
+        color: #999;
+        cursor: default;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
 `;
 
 export const StyledSingleFormContainer = styled.div<{
