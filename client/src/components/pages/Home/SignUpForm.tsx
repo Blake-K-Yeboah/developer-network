@@ -11,8 +11,12 @@ import React, { useState } from "react";
 // Components
 import ErrorAlert from "../../Alerts/ErrorAlert";
 
-// useHistory Hook
+// hooks
 import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+
+// Actions
+import { setSignUpInput } from "../../../slices/authSlice";
 
 // User Input Interface
 interface IUserInput {
@@ -30,6 +34,9 @@ const SignUpForm = () => {
 
     // History
     let history = useHistory();
+
+    // Dispatch
+    const dispatch = useDispatch();
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserInput({ ...userInput, [e.target.id]: e.target.value });
@@ -59,8 +66,8 @@ const SignUpForm = () => {
             return;
         }
 
-        // Store userInput in local storage
-        localStorage.setItem("userInput", JSON.stringify(userInput));
+        // Store userInput in state
+        dispatch(setSignUpInput(userInput));
 
         // Redirect to sigh up page
         history.push("/sign-up?step=2");
