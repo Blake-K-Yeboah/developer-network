@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 // Hooks
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 
 // Redux Actions
@@ -27,6 +27,9 @@ import {
 import ProgressBar from "./ProgressBar";
 import ErrorAlert from "../../Alerts/ErrorAlert";
 
+// Types
+import { RootState } from "../../../store";
+
 // Props Interface
 interface IProps {
     step: number;
@@ -43,11 +46,6 @@ interface IUserInput {
 }
 
 const MultiStepSignUpForm: React.FC<IProps> = ({ step, setStep }) => {
-    const userInputFromLocal = localStorage.getItem("userInput")
-        ? // @ts-ignore
-          JSON.parse(localStorage.getItem("userInput"))
-        : {};
-
     const [userInput, setUserInput] = useState<IUserInput>({
         name: "",
         email: "",
@@ -63,15 +61,12 @@ const MultiStepSignUpForm: React.FC<IProps> = ({ step, setStep }) => {
         setUserInput({ ...userInput, [e.target.id]: e.target.value });
     };
 
+    const signUpInput = useSelector(
+        (state: RootState) => state.auth.signUpInput
+    );
+
     useEffect(() => {
-        Object.keys(userInput).forEach((key) => {
-            if (key in userInputFromLocal) {
-                setUserInput({
-                    ...userInput,
-                    [key]: userInputFromLocal.key,
-                });
-            }
-        });
+        setUserInput({ ...userInput, ...signUpInput });
         // eslint-disable-next-line
     }, []);
 
@@ -85,8 +80,12 @@ const MultiStepSignUpForm: React.FC<IProps> = ({ step, setStep }) => {
         if (step !== 4) {
             setStep(step + 1);
         } else {
+            // Sign Up
             try {
-                const res = await axios.post("/api/auth/register", userInput);
+                const res = await axios.post("/api/auth/register", {
+                    ...userInput,
+                    username: `@${userInput.username}`,
+                });
                 dispatch(setUser(res.data.token));
                 localStorage.setItem("token", res.data.token);
                 history.push("/feed");
