@@ -8,6 +8,10 @@ const initialState: IAuthSliceState = {
     user: null,
     isAuthenticated: false,
     token: null,
+    signUpInput: {
+        name: "",
+        email: "",
+    },
 };
 
 export const authSlice: any = createSlice({
@@ -19,9 +23,12 @@ export const authSlice: any = createSlice({
             state.isAuthenticated = action.payload ? true : false;
             state.token = action.payload || null;
         },
+        setSignUpInput: (state, action) => {
+            state.signUpInput = action.payload;
+        },
     },
 });
 
-export const { setUser } = authSlice.actions;
+export const { setUser, setSignUpInput } = authSlice.actions;
 
 export default authSlice.reducer;
