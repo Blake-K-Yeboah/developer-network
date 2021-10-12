@@ -20,6 +20,10 @@ export interface IAuthSliceState {
     user: IUser | null;
     isAuthenticated: boolean;
     token: string | null;
+    signUpInput: {
+        name: string;
+        email: string;
+    };
 }
 
 // Theme Interface
