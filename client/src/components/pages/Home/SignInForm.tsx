@@ -91,7 +91,7 @@ const SignInForm = () => {
                     id="password"
                     onChange={onChange}
                 />
-                <button onClick={handleBtnClick}>
+                <button onClick={handleBtnClick} type="button">
                     {show ? <AiFillEyeInvisible /> : <AiFillEye />}
                 </button>
             </StyledInputGroup>
