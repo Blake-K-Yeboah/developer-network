@@ -15,6 +15,7 @@ import { ThemeProvider } from "styled-components";
 // Pages
 import Home from "./components/pages/Home/Home";
 import SignUp from "./components/pages/Sign Up/SignUp";
+import Feed from "./components/pages/Feed/Feed";
 
 // useDispatch hook and useSelector hook
 import { useDispatch, useSelector } from "react-redux";
@@ -67,6 +68,14 @@ const App = () => {
                         render={(props) => {
                             if (isAuthenticated) return <Redirect to="/feed" />;
                             return <SignUp {...props} />;
+                        }}
+                    />
+                    <Route
+                        exact
+                        path="/feed"
+                        render={(props) => {
+                            if (!isAuthenticated) return <Redirect to="/" />;
+                            return <Feed {...props} />;
                         }}
                     />
                 </Switch>
